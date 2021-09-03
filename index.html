@@ -9,7 +9,7 @@
         <title>SFCalc Online</title>
 
         <script src="src/main.js"></script>
-        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans"/>
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans"/>
         <link rel="stylesheet" href="src/style.css"/>
     </head>
     <body>
@@ -20,9 +20,10 @@
             There may be broken things at some times, incomplete at others. Please do make note of this.
         </p>
         <br>
+        <datalist id="allitems"></datalist>
         <form id="calculator">
             <label for="id">Enter the item ID:</label>
-            <input type="search" id="id">
+            <input type="search" list="allitems" id="id" autocomplete="off">
             <input type="number" id="amount" min="1" value="1">
             <input type="submit" value="Calculate!" id="submit">
         </form>
