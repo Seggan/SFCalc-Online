@@ -16,12 +16,15 @@ const blacklistedRecipes = [
     "meteor_attractor"
 ];
 
+let options = '';
 fetch('https://raw.githubusercontent.com/Seggan/SFCalc/gh-pages/src/items.json')
 .then(res => res.json())
 .then(itemList => {
     for (const item of itemList) {
         items[item.id] = item;
+        options += '<option value="' + item.id + '">';
     }
+    document.getElementById('allitems').innerHTML = options;
 }).catch(_err => console.error);
 
 function add(map1, map2, amount) {
