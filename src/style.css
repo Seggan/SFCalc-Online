@@ -18,11 +18,7 @@ h6 {
     width: 10%;
 }
 
-a {
-    color: cornflowerblue;
-}
-
-a:visited {
+a, a:visited {
     color: cornflowerblue;
 }
 
@@ -35,7 +31,7 @@ table {
     width: 30%;
 }
 
-._0 {
+._0, ._f {
     color: #000000;
 }
 
@@ -93,8 +89,4 @@ table {
 
 ._e {
     color: #ffff55;
-}
-
-._f {
-    color: #ffffff;
 }

@@ -13,7 +13,9 @@ const blacklistedRecipes = [
     "barter_drop",
     "ore_crusher",
     "multiblock",
-    "meteor_attractor"
+    "meteor_attractor",
+    "alien_drop",
+    "world_gen"
 ];
 
 let options = '';
