@@ -16,7 +16,7 @@ const blacklistedRecipes = [
     "meteor_attractor"
 ];
 
-fetch('https://raw.githubusercontent.com/Seggan/SFCalc/gh-pages/src/items.json')
+fetch('https://raw.githubusercontent.com/Seggan/SFCalc-Online/master/src/items.json')
 .then(res => res.json())
 .then(itemList => {
     for (const item of itemList) {
