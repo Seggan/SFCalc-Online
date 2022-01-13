@@ -5,6 +5,7 @@
 /.settings/
 /.idea/
 /test/
+/.vscode/
 
 dependency-reduced-pom.xml
 
