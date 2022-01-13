@@ -46,35 +46,39 @@ fetch('https://raw.githubusercontent.com/Seggan/SFCalc-Online/master/src/items.j
     document.getElementById('allitems').innerHTML = options;
 }).catch(_err => console.error);
 
-function add(map1, map2, amount) {
-    for (const key in map2) {
-        if (key in map1) {
-            let inThere = map1[key];
-            inThere += map2[key] * amount;
-            map1[key] = inThere;
-        } else {
-            map1[key] = map2[key] * amount;
-        }
+function add(map, key, amount) {
+    if (key in map) {
+        map[key] += amount;
+    } else {
+        map[key] = amount;
     }
 }
 
-function calculate(itemStr) {
+function calculate(itemStr, amount) {
     const results = {};
     const item = items[itemStr];
-    for (const ing of item.recipe) {
-        const value = ing.value;
-        const ingItem = items[value];
-        if (ing.value.toUpperCase() != ing.value || blacklistedItems.includes(value) || blacklistedRecipes.includes(ingItem.recipeType)) {
-            const temp = {};
-            temp[value] = 1;
-            add(results, temp, ing.amount);
-        } else {
-            const ret = calculate(value);
-            add(results, ret, ing.amount);
+
+    results[item.id] = amount;
+
+    let nextItem;
+    while (nextItem = getNextItem(results)) {
+        const operations = Math.ceil(results[nextItem.id] / nextItem.result);
+        add(results, nextItem.id, -1 * operations * nextItem.result);
+        for(const ingredient of nextItem.recipe) {
+            add(results, ingredient.value, operations * ingredient.amount);
         }
     }
 
     return results;
+}
+
+function getNextItem(map) {
+    for(const item in map) {
+        if(item.toUpperCase() == item && !blacklistedItems.includes(item) && !blacklistedRecipes.includes(items[item].recipeType) && map[item] > 0) {
+            return items[item];
+        }
+    }
+    return null;
 }
 
 window.onload = _e => {
@@ -85,7 +89,8 @@ window.onload = _e => {
             return false;
         }
 
-        let results = calculate(id);
+        const amount = parseInt(document.getElementById('amount').value);
+        let results = calculate(id, amount);
 
         results = Object.fromEntries(Object.entries(results).sort(([,a],[,b]) => a-b));
 
@@ -97,6 +102,10 @@ window.onload = _e => {
             let color = '_0';
             let name = result;
 
+            if(results[name] <= 0) {
+                continue;
+            }
+
             if (name.toUpperCase() === name) {
                 name = items[result].name;
             }
@@ -107,7 +116,7 @@ window.onload = _e => {
             }
 
             const disp = document.createElement('tr');
-            disp.innerHTML = '<td class="' + color + '\"><b>' + name + '</b></td><td>' + results[result] * document.getElementById('amount').value + '</td>';
+            disp.innerHTML = '<td class="' + color + '\"><b>' + name + '</b></td><td>' + results[result] + '</td>';
 
             div.appendChild(disp);
         }
